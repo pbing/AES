@@ -3,4 +3,5 @@ AES implementation in Common Lisp
 
 # Implemention
 Written for readability with almost no performance optimizations.
-Needs about 4000 clock cycles per Byte on my system (2.8 GHz Intel Core i7).
+
+Needs about 4000 clock cycles per byte on my system (2.8 GHz Intel Core i7).
