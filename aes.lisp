@@ -109,6 +109,11 @@
 ;;; Cipher
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+(declaim (inline add-round-key))
+(defun add-round-key (state key)
+  (declare (type (unsigned-byte 128) state key))
+  (logxor state key))
+
 (defun sub-bytes (n &optional (sbox +sbox+))
   (declare (type (unsigned-byte 128) n)
 	   (type (array (unsigned-byte 8) (256)) sbox))
@@ -247,37 +252,28 @@
   (with-slots (expanded-keys cipher-key) o
     (setf expanded-keys (key-expansion cipher-key 8))))
 
-(defgeneric add-round-key (o i));
-(defmethod add-round-key ((o aes) i)
-  (with-slots (expanded-keys state) o
-    (setf state (logxor state (aref expanded-keys i)))))
-
 (defgeneric encode (o n));
 (defmethod encode ((o aes) n)
   (with-slots (expanded-keys state) o
-    (setf state n)
-    (add-round-key o 0)
+    (setf state (add-round-key n (aref expanded-keys 0)))
     (loop for i from 1 below (1- (length expanded-keys)) do
       (setf state (sub-bytes state))
       (setf state (shift-rows state))
       (setf state (mix-columns state))
-      (add-round-key o i))
+      (setf state (add-round-key state (aref expanded-keys i))))
     (setf state (sub-bytes state))
     (setf state (shift-rows state))
-    (add-round-key o (1- (length expanded-keys)))
-    state))
+    (add-round-key state (aref expanded-keys (1- (length expanded-keys))))))
 
 (defgeneric decode (o n));
 (defmethod decode ((o aes) n)
   (with-slots (expanded-keys state) o
-    (setf state n)
-    (add-round-key o (1- (length expanded-keys)))
+    (setf state (add-round-key n (aref expanded-keys (1- (length expanded-keys)))))
     (loop for i from (- (length expanded-keys) 2) downto 1 do
       (setf state (inv-shift-rows state))
       (setf state (inv-sub-bytes state))
-      (add-round-key o i)
+      (setf state (add-round-key state (aref expanded-keys i)))
       (setf state (inv-mix-columns state)))
     (setf state (inv-shift-rows state))
     (setf state (inv-sub-bytes state))
-    (add-round-key o 0)
-    state))
+    (add-round-key state (aref expanded-keys 0))))
