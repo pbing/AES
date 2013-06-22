@@ -1,6 +1,6 @@
-;;; Package definitions
+;;;; Package definitions
 
-(defpackage #:aes
+(defpackage :aes
   (:use #:common-lisp)
   (:export #:aes-128 #:aes-192 #:aes-256
            #:encode #:decode)
