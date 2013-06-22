@@ -185,6 +185,8 @@
 	(b33 (logxor (g* 3 (ldb (byte 8  24) n)) (g* 1 (ldb (byte 8  16) n)) (g* 1 (ldb (byte 8   8) n)) (g* 2 (ldb (byte 8  0) n))))
 
 	(b 0))
+    (declare (type (unsigned-byte 8) b00 b01 b02 b03 b10 b11 b12 b13 b20 b21 b22 b23 b30 b31 b32 b33)
+	     (type (unsigned-byte 128) b))
     (setf b (dpb b00 (byte 8 120) b) b (dpb b01 (byte 8 88) b) b (dpb b02 (byte 8 56) b) b (dpb b03 (byte 8 24) b)
 	  b (dpb b10 (byte 8 112) b) b (dpb b11 (byte 8 80) b) b (dpb b12 (byte 8 48) b) b (dpb b13 (byte 8 16) b)
 	  b (dpb b20 (byte 8 104) b) b (dpb b21 (byte 8 72) b) b (dpb b22 (byte 8 40) b) b (dpb b23 (byte 8  8) b)
@@ -213,6 +215,8 @@
 	(b33 (logxor (g* 11 (ldb (byte 8  24) n)) (g* 13 (ldb (byte 8  16) n)) (g*  9 (ldb (byte 8   8) n)) (g* 14 (ldb (byte 8  0) n))))
 
 	(b 0))
+    (declare (type (unsigned-byte 8) b00 b01 b02 b03 b10 b11 b12 b13 b20 b21 b22 b23 b30 b31 b32 b33)
+	     (type (unsigned-byte 128) b))
     (setf b (dpb b00 (byte 8 120) b) b (dpb b01 (byte 8 88) b) b (dpb b02 (byte 8 56) b) b (dpb b03 (byte 8 24) b)
 	  b (dpb b10 (byte 8 112) b) b (dpb b11 (byte 8 80) b) b (dpb b12 (byte 8 48) b) b (dpb b13 (byte 8 16) b)
 	  b (dpb b20 (byte 8 104) b) b (dpb b21 (byte 8 72) b) b (dpb b22 (byte 8 40) b) b (dpb b23 (byte 8  8) b)
