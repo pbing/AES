@@ -1,10 +1,17 @@
-;;; -*- Lisp -*-
+;;;; Advanced Encryptions Standard (AES)
 
 (defsystem aes
-  :components ((:file "aes")))
+  :components ((:file "packages")
+	       (:file "aes" :depends-on ("packages"))))
 
-;; (asdf:load-system :aes-tests)
-;; (sb-rt:do-tests)
+;;; Usage:
+;;;   (asdf:load-system :aes-tests)
+;;;   (sb-rt:do-tests)
 (defsystem aes-tests
   :depends-on (aes sb-rt)
-  :components ((:file "aes-tests")))
+  :components ((:file "packages")
+	       (:file "aes-tests" :depends-on ("packages"))))
+
+;;; Local Variables:
+;;; mode: Lisp
+;;; End:

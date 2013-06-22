@@ -1,11 +1,6 @@
 ;;;; AES implemention
 
-(defpackage :aes
-  (:use :common-lisp)
-  (:export :aes-128 :aes-192 :aes-256
-           :encode :decode))
-
-(in-package :aes)
+(in-package #:aes)
 
 ;;; SBCL is quite strict about ANSI's definition of defconstant. ANSI says
 ;;; that doing defconstant of the same symbol more than once is undefined
