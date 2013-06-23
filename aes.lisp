@@ -263,13 +263,16 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defclass aes ()
-  ((cipher-key    :type (unsigned-byte 128) :initarg :cipher-key )
-   (expanded-keys :type (simple-array (unsigned-byte 128)))
-   (state         :type (unsigned-byte 128))))
+  ((expanded-keys :type (simple-array (unsigned-byte 128)))))
 
-(defclass aes-128 (aes) ())
-(defclass aes-192 (aes) ())
-(defclass aes-256 (aes) ())
+(defclass aes-128 (aes) 
+  ((cipher-key :type (unsigned-byte 128) :initarg :cipher-key)))
+
+(defclass aes-192 (aes)
+  ((cipher-key :type (unsigned-byte 192) :initarg :cipher-key)))
+
+(defclass aes-256 (aes)
+  ((cipher-key :type (unsigned-byte 256) :initarg :cipher-key)))
 
 (defmethod initialize-instance :after ((o aes-128) &rest initargs)
   (declare (ignore initargs))
@@ -286,28 +289,30 @@
   (with-slots (expanded-keys cipher-key) o
     (setf expanded-keys (key-expansion cipher-key 8))))
 
-(defgeneric encode (o n));
-(defmethod encode ((o aes) n)
+(defgeneric encrypt (o n))
+(defmethod encrypt ((o aes) n)
   (with-slots (expanded-keys state) o
-    (setf state (add-round-key n (aref expanded-keys 0)))
-    (loop for i from 1 below (1- (length expanded-keys)) do
-      (setf state (sub-bytes state))
-      (setf state (shift-rows state))
-      (setf state (mix-columns state))
-      (setf state (add-round-key state (aref expanded-keys i))))
-    (setf state (sub-bytes state))
-    (setf state (shift-rows state))
-    (add-round-key state (aref expanded-keys (1- (length expanded-keys))))))
+    (let ((state (add-round-key n (aref expanded-keys 0))))
+      (declare (type (unsigned-byte 128) state))
+      (loop for i from 1 below (1- (length expanded-keys)) do
+	(setf state (sub-bytes state)
+	      state (shift-rows state)
+	      state (mix-columns state)
+	      state (add-round-key state (aref expanded-keys i))))
+      (setf state (sub-bytes state)
+	    state (shift-rows state))
+      (add-round-key state (aref expanded-keys (1- (length expanded-keys)))))))
 
-(defgeneric decode (o n));
-(defmethod decode ((o aes) n)
+(defgeneric decrypt (o n))
+(defmethod decrypt ((o aes) n)
   (with-slots (expanded-keys state) o
-    (setf state (add-round-key n (aref expanded-keys (1- (length expanded-keys)))))
-    (loop for i from (- (length expanded-keys) 2) downto 1 do
-      (setf state (inv-shift-rows state))
-      (setf state (inv-sub-bytes state))
-      (setf state (add-round-key state (aref expanded-keys i)))
-      (setf state (inv-mix-columns state)))
-    (setf state (inv-shift-rows state))
-    (setf state (inv-sub-bytes state))
-    (add-round-key state (aref expanded-keys 0))))
+    (let ((state (add-round-key n (aref expanded-keys (1- (length expanded-keys))))))
+      (declare (type (unsigned-byte 128) state))
+      (loop for i from (- (length expanded-keys) 2) downto 1 do
+	(setf state (inv-shift-rows state)
+	      state (inv-sub-bytes state)
+	      state (add-round-key state (aref expanded-keys i))
+	      state (inv-mix-columns state)))
+      (setf state (inv-shift-rows state)
+	    state (inv-sub-bytes state))
+      (add-round-key state (aref expanded-keys 0)))))

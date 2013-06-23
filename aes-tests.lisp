@@ -57,32 +57,32 @@
 
 ;;; FIPS-197: Appendix C - Example Vectors
 
-(sb-rt:deftest aes.encode-128
+(sb-rt:deftest aes.encrypt-128
     (let ((aes-128 (make-instance 'aes:aes-128 :cipher-key #x000102030405060708090a0b0c0d0e0f)))
-      (aes:encode aes-128 #x00112233445566778899aabbccddeeff))
+      (aes:encrypt aes-128 #x00112233445566778899aabbccddeeff))
   #x69c4e0d86a7b0430d8cdb78070b4c55a)
 
-(sb-rt:deftest aes.decode-128
+(sb-rt:deftest aes.decrypt-128
     (let ((aes-128 (make-instance 'aes:aes-128 :cipher-key #x000102030405060708090a0b0c0d0e0f)))
-      (aes:decode aes-128 #x69c4e0d86a7b0430d8cdb78070b4c55a))
+      (aes:decrypt aes-128 #x69c4e0d86a7b0430d8cdb78070b4c55a))
   #x00112233445566778899aabbccddeeff)
 
-(sb-rt:deftest aes.encode-192
+(sb-rt:deftest aes.encrypt-192
     (let ((aes-192 (make-instance 'aes:aes-192 :cipher-key #x000102030405060708090a0b0c0d0e0f1011121314151617)))
-      (aes:encode aes-192 #x00112233445566778899aabbccddeeff))
+      (aes:encrypt aes-192 #x00112233445566778899aabbccddeeff))
   #xdda97ca4864cdfe06eaf70a0ec0d7191)
 
-(sb-rt:deftest aes.decode-192
+(sb-rt:deftest aes.decrypt-192
     (let ((aes-192 (make-instance 'aes:aes-192 :cipher-key #x000102030405060708090a0b0c0d0e0f1011121314151617)))
-      (aes:decode aes-192 #xdda97ca4864cdfe06eaf70a0ec0d7191))
+      (aes:decrypt aes-192 #xdda97ca4864cdfe06eaf70a0ec0d7191))
   #x00112233445566778899aabbccddeeff)
 
-(sb-rt:deftest aes.encode-256
+(sb-rt:deftest aes.encrypt-256
     (let ((aes-256 (make-instance 'aes:aes-256 :cipher-key #x000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f)))
-      (aes:encode aes-256 #x00112233445566778899aabbccddeeff))
+      (aes:encrypt aes-256 #x00112233445566778899aabbccddeeff))
   #x8ea2b7ca516745bfeafc49904b496089)
 
-(sb-rt:deftest aes.decode-256
+(sb-rt:deftest aes.decrypt-256
     (let ((aes-256 (make-instance 'aes:aes-256 :cipher-key #x000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f)))
-      (aes:decode aes-256 #x8ea2b7ca516745bfeafc49904b496089))
+      (aes:decrypt aes-256 #x8ea2b7ca516745bfeafc49904b496089))
   #x00112233445566778899aabbccddeeff)
