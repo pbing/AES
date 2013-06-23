@@ -36,15 +36,7 @@
   (values))
 
 #+(or)
-(sb-profile:profile aes::sub-word
-		    aes::rot-word
-		    aes::key-expansion
-		    aes::add-round-key
-		    aes::sub-bytes aes::inv-sub-bytes
-		    aes::shift-rows aes::inv-shift-rows
-		    aes::xtime aes::g*
-		    aes::mix-columns aes::inv-mix-columns
-		    aes:encode aes:decode)
+(sb-profile:profile "AES")
 ;;; (sb-profile:report)
 ;;; (sb-profile:reset)
 ;;; (sb-profile:unprofile)
@@ -53,8 +45,6 @@
 ;;; (require :sb-sprof)
 #+(or)
 (sb-sprof:with-profiling (:max-samples 1000
-			  :sample-interval 1e-3
-			  :mode :cpu
-			  :report :flat
-			  :show-progress t)
+                          :mode :time
+                          :report :flat)
   (benchmark-encrypt-ecb))
