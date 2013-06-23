@@ -21,18 +21,37 @@
   (loop for i below n do
     (format t "~&~16,'0X~%" (aref text i))))
 
-(defun benchmark-encrypt-ecb ()
+(defun benchmark-128-encrypt-ecb ()
   (let ((aes (make-instance 'aes:aes-128 :cipher-key *key*)))
-    (loop for i below *block-length* do
-      (setf (aref *cipher-text* i) (aes:encode aes (aref *plain-text* i))))))
+    (aes:block-encrypt-ecb aes *plain-text* *cipher-text*)
+    (values)))
 
-#+(or)(defun benchmark-encrypt-ecb ()
-  (aes:block-encrypt-ecb *plain-text* *cipher-text* *key*)
-  (values))
+(defun benchmark-192-encrypt-ecb ()
+  (let ((aes (make-instance 'aes:aes-192 :cipher-key *key*)))
+    (aes:block-encrypt-ecb aes *plain-text* *cipher-text*)
+    (values)))
 
-#+(or)(defun benchmark-encrypt-cbc ()
-  (aes:block-encrypt-cbc *plain-text* *cipher-text* *key* :iv *iv*)
-  (values))
+(defun benchmark-256-encrypt-ecb ()
+  (let ((aes (make-instance 'aes:aes-256 :cipher-key *key*)))
+    (aes:block-encrypt-ecb aes *plain-text* *cipher-text*)
+    (values)))
+
+(defun benchmark-128-encrypt-cbc ()
+  (let ((aes (make-instance 'aes:aes-128 :cipher-key *key*)))
+    (aes:block-encrypt-cbc aes *plain-text* *cipher-text* :iv *iv*)
+    (values)))
+
+(defun benchmark-192-encrypt-cbc ()
+  (let ((aes (make-instance 'aes:aes-192 :cipher-key *key*)))
+    (aes:block-encrypt-cbc aes *plain-text* *cipher-text* :iv *iv*)
+    (values)))
+
+(defun benchmark-256-encrypt-cbc ()
+  (let ((aes (make-instance 'aes:aes-256 :cipher-key *key*)))
+    (aes:block-encrypt-cbc aes *plain-text* *cipher-text* :iv *iv*)
+    (values)))
+
+(init-text *plain-text*)
 
 #+(or)
 (sb-profile:profile "AES")

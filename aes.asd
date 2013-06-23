@@ -2,7 +2,8 @@
 
 (defsystem aes
   :components ((:file "packages")
-	       (:file "aes" :depends-on ("packages"))))
+	       (:file "aes" :depends-on ("packages"))
+	       (:file "block" :depends-on ("packages"))))
 
 ;;; Usage:
 ;;;   (asdf:load-system :aes-tests)
