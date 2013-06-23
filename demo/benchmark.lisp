@@ -21,7 +21,6 @@
   (loop for i below n do
     (format t "~&~16,'0X~%" (aref text i))))
 
-
 (defun benchmark-encrypt-ecb ()
   (let ((aes (make-instance 'aes:aes-128 :cipher-key *key*)))
     (loop for i below *block-length* do
