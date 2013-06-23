@@ -15,7 +15,7 @@ Lisp Version: sbcl-1.1.8-x86-64-darwin
 
 ## Consing in bytes per 128 bit block
 <table>
-<tr><th></th> <th>bytes/th></tr>
+<tr><th></th> <th>bytes</th></tr>
 <tr><td>AES-128</td> <td>79000 </td></tr>
 <tr><td>AES-192</td> <td>95000 </td></tr>
 <tr><td>AES-256</td> <td>111000</td></tr>
