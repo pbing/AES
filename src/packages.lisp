@@ -7,7 +7,3 @@
  	   #:block-encrypt-ecb #:block-decrypt-ecb
  	   #:block-encrypt-cbc #:block-decrypt-cbc)
   (:documentation "Advanced Encryption Standard (AES) encryption and decryption."))
-
-(defpackage :aes-tests
-  (:use #:common-lisp)
-  (:documentation "AES tests"))
