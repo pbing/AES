@@ -16,11 +16,11 @@
 	  (setf (aref cipher i) (read-byte stream)))
 
 	;; decode
-	(aes:block-decrypt-cbc aes cipher plain :iv iv)
+	(aes:block-decrypt-cbc aes cipher plain iv)
 
 	;; print
 	(loop for j below file-length
 	      for pt = (aref plain j)
 	      for end = (if (< j (- file-length 1)) 0 (* 8 (ldb (byte 8 0) pt))) do ; discard padding
 		(loop for i from 120 downto end by 8 do
-		  (format t "~X" (code-char (ldb (byte 8 i) pt)))))))))
+		  (format t "~C" (code-char (ldb (byte 8 i) pt)))))))))

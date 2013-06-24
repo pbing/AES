@@ -20,8 +20,8 @@ PLAN-TEXT. Result is array CIPHER-TEXT."
   plain-text)
 
 ;;; Mode: CBC - Cipher Block Chaining
-(defgeneric block-encrypt-cbc (o plain-text cipher-text &key iv))
-(defmethod block-encrypt-cbc (o plain-text cipher-text &key (iv 0))
+(defgeneric block-encrypt-cbc (o plain-text cipher-text iv))
+(defmethod block-encrypt-cbc (o plain-text cipher-text iv)
   "AES encryption with Cipher Block Chaining (CBC) mode of array
 PLAN-TEXT with initialization vector IV. Result is array
 CIPHER-TEXT."
@@ -32,8 +32,8 @@ CIPHER-TEXT."
 	do (setf (aref cipher-text i) ct))
   cipher-text)
 
-(defgeneric block-decrypt-cbc (o cipher-text plain-text &key iv))
-(defmethod block-decrypt-cbc (o cipher-text plain-text &key (iv 0))
+(defgeneric block-decrypt-cbc (o cipher-text plain-text iv))
+(defmethod block-decrypt-cbc (o cipher-text plain-text iv)
   "AES decryption with Cipher Block Chaining (CBC) mode of array
 CIPHER-TEXT with and initialization vector IV. Result is array
 PLAN-TEXT."
