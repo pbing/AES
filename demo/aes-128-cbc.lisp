@@ -18,9 +18,11 @@
 	;; decode
 	(aes:block-decrypt-cbc aes cipher plain iv)
 
-	;; print
+	;; Print plain vectors. This will work only with ASCII coded
+	;; text files; for UTF-8 we need something like
+	;; (sb-ext:octets-to-string vector :external-format :utf-8).
+	;; The padding bytes will also be printed.
 	(loop for j below file-length
-	      for pt = (aref plain j)
-	      for end = (if (< j (- file-length 1)) 0 (* 8 (ldb (byte 8 0) pt))) do ; discard padding
-		(loop for i from 120 downto end by 8 do
+	      for pt = (aref plain j) do
+		(loop for i from 120 downto 0 by 8 do
 		  (format t "~C" (code-char (ldb (byte 8 i) pt)))))))))
