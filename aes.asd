@@ -4,6 +4,8 @@
   :in-order-to ((test-op (test-op aes-tests)))
   :pathname "src"
   :components ((:file "packages")
+	       (:file "math" :depends-on ("packages"))
+	       (:file "tables" :depends-on ("packages" "math"))
 	       (:file "aes" :depends-on ("packages"))
 	       (:file "block" :depends-on ("packages"))))
 
