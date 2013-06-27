@@ -23,3 +23,15 @@
       (setf n1 (xtime n1)
 	    n2 (ash n2 -1)))
     p))
+
+;;; Brute-force algorithm; doesn't matter because ginverse is only
+;;; used to calculate the S-boxes during compile time.
+(defun ginverse (n)
+  "Calculates the Galois multiplicative inverse of N."
+  (declare (type (unsigned-byte 8) n))
+  (if (= n 0)
+      0
+      (loop for i from 1 to 255
+	    until (= 1 (g* i n))
+	    finally (return i))))
+
