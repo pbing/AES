@@ -6,7 +6,7 @@
   :components ((:file "packages")
 	       (:file "math" :depends-on ("packages"))
 	       (:file "tables" :depends-on ("packages" "math"))
-	       (:file "aes" :depends-on ("packages"))
+	       (:file "aes" :depends-on ("packages" "tables"))
 	       (:file "block" :depends-on ("packages"))))
 
 ;;; for test do: (asdf:test-system :aes)
