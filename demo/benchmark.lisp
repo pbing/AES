@@ -1,6 +1,6 @@
 ;;; Benchmarks
 
-(defparameter *block-length* 100000)
+(defparameter *block-length* 1000000)
 (defparameter *key* (random (expt 2 128)))
 (defparameter *iv* (random (expt 2 128)))
 
@@ -38,17 +38,47 @@
 
 (defun benchmark-128-encrypt-cbc ()
   (let ((aes (make-instance 'aes:aes-128 :cipher-key *key*)))
-    (aes:block-encrypt-cbc aes *plain-text* *cipher-text* :iv *iv*)
+    (aes:block-encrypt-cbc aes *plain-text* *cipher-text* *iv*)
     (values)))
 
 (defun benchmark-192-encrypt-cbc ()
   (let ((aes (make-instance 'aes:aes-192 :cipher-key *key*)))
-    (aes:block-encrypt-cbc aes *plain-text* *cipher-text* :iv *iv*)
+    (aes:block-encrypt-cbc aes *plain-text* *cipher-text* *iv*)
     (values)))
 
 (defun benchmark-256-encrypt-cbc ()
   (let ((aes (make-instance 'aes:aes-256 :cipher-key *key*)))
-    (aes:block-encrypt-cbc aes *plain-text* *cipher-text* :iv *iv*)
+    (aes:block-encrypt-cbc aes *plain-text* *cipher-text* *iv*)
+    (values)))
+
+(defun benchmark-128-decrypt-ecb ()
+  (let ((aes (make-instance 'aes:aes-128 :cipher-key *key*)))
+    (aes:block-decrypt-ecb aes *plain-text* *cipher-text*)
+    (values)))
+
+(defun benchmark-192-decrypt-ecb ()
+  (let ((aes (make-instance 'aes:aes-192 :cipher-key *key*)))
+    (aes:block-decrypt-ecb aes *plain-text* *cipher-text*)
+    (values)))
+
+(defun benchmark-256-decrypt-ecb ()
+  (let ((aes (make-instance 'aes:aes-256 :cipher-key *key*)))
+    (aes:block-decrypt-ecb aes *plain-text* *cipher-text*)
+    (values)))
+
+(defun benchmark-128-decrypt-cbc ()
+  (let ((aes (make-instance 'aes:aes-128 :cipher-key *key*)))
+    (aes:block-decrypt-cbc aes *plain-text* *cipher-text* *iv*)
+    (values)))
+
+(defun benchmark-192-decrypt-cbc ()
+  (let ((aes (make-instance 'aes:aes-192 :cipher-key *key*)))
+    (aes:block-decrypt-cbc aes *plain-text* *cipher-text* *iv*)
+    (values)))
+
+(defun benchmark-256-decrypt-cbc ()
+  (let ((aes (make-instance 'aes:aes-256 :cipher-key *key*)))
+    (aes:block-decrypt-cbc aes *plain-text* *cipher-text* *iv*)
     (values)))
 
 (init-text *plain-text*)
