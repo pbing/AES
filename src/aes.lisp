@@ -2,8 +2,9 @@
 
 (in-package #:aes)
 
-;;; AES state/keys are implemented with four 32-bit vectors.
-(deftype aes-data () '(simple-array (unsigned-byte 32) (4)))
+(deftype aes-data () 
+  "AES state/keys are implemented with four 32-bit vectors."
+  '(simple-array (unsigned-byte 32) (4)))
 
 (defmacro pack-16 (n0 n1)
   `(dpb ,n0 (byte 8 8) ,n1))
@@ -29,21 +30,22 @@
 
 (defun sub-word (n)
   (declare (type (unsigned-byte 32) n))
-  (let ((result 0))
-    (declare (type (unsigned-byte 32) result))
-    (loop for i below 32 by 8
-	  for b = (aref +sbox+ (ldb (byte 8 i) n))
-	  do (setf result (dpb b (byte 8 i) result)))
-    result))
+  (loop for i below 32 by 8
+	for b = (aref +sbox+ (ldb (byte 8 i) n))
+	do (setf n (dpb b (byte 8 i) n)))
+  n)
 
 (defun rot-word (n)
   (declare (type (unsigned-byte 32) n))
   (dpb (ldb (byte 24 0) n) (byte 24 8) (ldb (byte 8 24) n)))
 
 (defun round-const (i nk)
+  (declare (type (integer 1 *) i nk))
   (aref +round-const+ (1- (truncate i nk))))
 
 (defun key-expansion (cipher-key nk)
+  (declare (type unsigned-byte cipher-key)
+	   (type (integer 1 *) nk))
   (let ((w (make-array (* 4 (+ nk 7)) :element-type '(unsigned-byte 32)))
 	(k (make-array      (+ nk 7))))
     ;; first Nk keys
@@ -66,6 +68,7 @@
     k))
 
 (defun decryption-key-expansion (ek)
+  (declare (type (simple-array aes-data) ek))
   (let* ((nk (length ek))
 	 (dk (make-array nk)))
     (loop for i below nk
