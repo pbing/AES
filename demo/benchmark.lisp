@@ -19,7 +19,7 @@
 (defun print-text (text &optional (n 10))
   (setf n (or n (length text)))
   (loop for i below n do
-    (format t "~&~16,'0X~%" (aref text i))))
+    (format t "~&~32,'0X~%" (aref text i))))
 
 (defun benchmark-128-encrypt-ecb ()
   (let ((aes (make-instance 'aes:aes-128 :cipher-key *key*)))
