@@ -120,7 +120,7 @@
   s)
 
 (defun ninv-shift-rows (s)
-  "Destructivley shift rows left in state S."
+  "Destructivley shift rows right in state S."
   (declare (type aes-data s))
   (let ((s0 (aref s 0))
 	(s1 (aref s 1))
