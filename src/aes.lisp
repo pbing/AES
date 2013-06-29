@@ -136,7 +136,7 @@
 	  (aref s 3) (pack-32 (ldb (byte 8 24) s3) (ldb (byte 8 16) s2) (ldb (byte 8  8) s1) (ldb (byte 8  0) s0))))
   s)
 
-(defun nmix-columns-nsub-bytes (s)
+(defun nmix-columns-sub-bytes (s)
   "Perform nsub-bytes and nmix-columns in one step."
   (declare (type aes-data s))
   (let* ((s0 (aref s 0))
@@ -296,7 +296,7 @@
       (nadd-round-key state (aref expanded-encryption-keys 0))
       (loop for i from 1 below (1- (length expanded-encryption-keys))
 	    do (nshift-rows state)
-	       (nmix-columns-nsub-bytes state)
+	       (nmix-columns-sub-bytes state)
 	       (nadd-round-key state (aref expanded-encryption-keys i)))
       (nsub-bytes state)
       (nshift-rows state)
